@@ -22,8 +22,14 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-2.5 group focus-visible:outline-none"
         >
-          <div className="w-9 h-9 bg-[#ffe600] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000000] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-transform">
-            <Database className="w-5 h-5 text-black stroke-[2.5]" />
+          <div className="w-9 h-9 bg-[#ffe600] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000000] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] transition-transform p-1">
+            <svg viewBox="0 0 32 32" className="w-full h-full" fill="none">
+              <line x1="2" y1="10" x2="30" y2="10" stroke="#000000" strokeWidth="2.5" />
+              <line x1="13" y1="10" x2="13" y2="30" stroke="#000000" strokeWidth="2.5" />
+              <line x1="13" y1="20" x2="30" y2="20" stroke="#000000" strokeWidth="2" />
+              <path d="M5 14 v11 h6" stroke="#000000" strokeWidth="3" strokeLinecap="square" />
+              <polygon points="19,13 26,13 21,18 27,18 18,27 20,20 16,20" fill="#000000" />
+            </svg>
           </div>
           <div className="flex flex-col">
             <span className="font-extrabold text-lg tracking-widest text-black uppercase leading-none">

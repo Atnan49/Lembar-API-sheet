@@ -7,9 +7,14 @@ export function Footer() {
     <footer className="w-full bg-white border-t-3 border-black py-8 mt-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Brand & Tagline */}
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#ffe600] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000000]">
-            <Database className="w-4 h-4 text-black stroke-[2.5]" />
+          <div className="w-8 h-8 bg-[#ffe600] border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_#000000] p-1">
+            <svg viewBox="0 0 32 32" className="w-full h-full" fill="none">
+              <line x1="2" y1="10" x2="30" y2="10" stroke="#000000" strokeWidth="2.5" />
+              <line x1="13" y1="10" x2="13" y2="30" stroke="#000000" strokeWidth="2.5" />
+              <line x1="13" y1="20" x2="30" y2="20" stroke="#000000" strokeWidth="2" />
+              <path d="M5 14 v11 h6" stroke="#000000" strokeWidth="3" strokeLinecap="square" />
+              <polygon points="19,13 26,13 21,18 27,18 18,27 20,20 16,20" fill="#000000" />
+            </svg>
           </div>
           <div>
             <div className="font-extrabold text-sm tracking-widest uppercase text-black">
