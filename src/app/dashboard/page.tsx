@@ -16,6 +16,10 @@ import {
   Activity,
   Layers,
   AlertTriangle,
+  Zap,
+  Sparkles,
+  CreditCard,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -75,6 +79,26 @@ export default function DashboardPage() {
   // Code modal language
   const [codeLang, setCodeLang] = useState<"curl" | "fetch" | "php" | "python">("curl");
 
+  // Billing state
+  const [userPlan, setUserPlan] = useState<"FREE" | "PRO">("FREE");
+  const [planExpiresAt, setPlanExpiresAt] = useState<string | null>(null);
+  const [isUpgradeModalOpen, setIsUpgradeModalOpen] = useState(false);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  // Fetch billing status
+  const fetchBillingStatus = async () => {
+    try {
+      const res = await fetch("/api/billing/status");
+      const json = await res.json();
+      if (json.success) {
+        setUserPlan(json.plan);
+        setPlanExpiresAt(json.planExpiresAt);
+      }
+    } catch {
+      // ignore transient error
+    }
+  };
+
   // Fetch connected sheets
   const fetchSheets = async () => {
     setIsLoading(true);
@@ -97,11 +121,30 @@ export default function DashboardPage() {
   useEffect(() => {
     if (status === "authenticated") {
       fetchSheets();
+      fetchBillingStatus();
       if (!session.user?.segmentTag) {
         setShowSurvey(true);
       }
     }
   }, [status, session]);
+
+  // Handle upgrade checkout via Pakasir QRIS
+  const handleUpgradeCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      const res = await fetch("/api/billing/checkout", { method: "POST" });
+      const json = await res.json();
+      if (json.success && json.paymentUrl) {
+        window.location.href = json.paymentUrl;
+      } else {
+        alert(json.error || "Gagal membuat sesi pembayaran Pakasir.");
+      }
+    } catch {
+      alert("Kesalahan jaringan saat menghubungi payment gateway.");
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   const handleCopy = (id: string, text: string) => {
     navigator.clipboard.writeText(text);
@@ -305,17 +348,43 @@ export default function DashboardPage() {
             <h1 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black">
               Dashboard Sheets
             </h1>
-            <Badge variant="yellow">Beta</Badge>
+            {userPlan === "PRO" ? (
+              <Badge variant="yellow" className="bg-[#ffe600] text-black border-2 border-black flex items-center gap-1">
+                <Sparkles className="w-3 h-3 stroke-[3]" />
+                <span>PRO PLAN</span>
+              </Badge>
+            ) : (
+              <Badge variant="black">FREE (1.000 Req)</Badge>
+            )}
           </div>
           <p className="text-xs sm:text-sm text-zinc-700 font-medium mt-1">
             Akun: <span className="font-bold text-black">{session?.user?.email}</span>
+            {userPlan === "PRO" && planExpiresAt && (
+              <span className="ml-2 text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 border border-green-600">
+                Aktif s/d {new Date(planExpiresAt).toLocaleDateString("id-ID")}
+              </span>
+            )}
           </p>
         </div>
 
-        <Button variant="primary" size="md" onClick={() => setIsConnectModalOpen(true)}>
-          <Plus className="w-4 h-4 stroke-[3]" />
-          <span>Hubungkan Sheet Baru</span>
-        </Button>
+        <div className="flex items-center gap-3">
+          {userPlan !== "PRO" && (
+            <Button
+              variant="secondary"
+              size="md"
+              className="bg-[#ffe600] text-black hover:bg-black hover:text-white border-2 border-black shadow-[3px_3px_0px_#000000]"
+              onClick={() => setIsUpgradeModalOpen(true)}
+            >
+              <Zap className="w-4 h-4 fill-current stroke-[2.5]" />
+              <span>Upgrade PRO (Rp 49rb)</span>
+            </Button>
+          )}
+
+          <Button variant="primary" size="md" onClick={() => setIsConnectModalOpen(true)}>
+            <Plus className="w-4 h-4 stroke-[3]" />
+            <span>Hubungkan Sheet</span>
+          </Button>
+        </div>
       </div>
 
       {/* Main Content Area */}
@@ -749,6 +818,77 @@ print(data)`}
             >
               4. Keperluan Lainnya
             </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Upgrade to PRO Modal (Pakasir Payment Gateway) */}
+      <Modal
+        isOpen={isUpgradeModalOpen}
+        onClose={() => setIsUpgradeModalOpen(false)}
+        title="Upgrade ke Lembar PRO"
+        description="Tingkatkan kapasitas request dan dapatkan fitur tanpa batas untuk proyek skala produksi."
+        maxWidth="md"
+      >
+        <div className="flex flex-col gap-5">
+          {/* Pricing Box */}
+          <div className="p-4 bg-[#ffe600] border-2 border-black shadow-[3px_3px_0px_#000000]">
+            <div className="flex items-baseline justify-between">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-black">
+                Paket PRO Bulanan
+              </span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-black text-black">Rp 49.000</span>
+                <span className="text-xs font-bold text-black">/ bulan</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Benefits List */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-black">
+              Keuntungan Paket PRO:
+            </span>
+            <div className="flex flex-col gap-2 text-xs font-bold text-zinc-800">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-black stroke-[3]" />
+                <span><strong>50.000 Request API / Bulan</strong> (dari 1.000 req)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-black stroke-[3]" />
+                <span><strong>Multi-Spreadsheet</strong> Tanpa Batas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-black stroke-[3]" />
+                <span>Fitur <strong>Auto-Create Tab & Header</strong> Tanpa Batas</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-black stroke-[3]" />
+                <span>Prioritas Kecepatan Server & Upstash Cache</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-black stroke-[3]" />
+                <span>Aktivasi Otomatis Instan via <strong>QRIS Pakasir</strong></span>
+              </div>
+            </div>
+          </div>
+
+          {/* Payment CTA Buttons */}
+          <div className="flex flex-col gap-3 pt-3 border-t-2 border-black">
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full justify-center text-sm shadow-[4px_4px_0px_#000000]"
+              onClick={handleUpgradeCheckout}
+              isLoading={isCheckingOut}
+            >
+              <CreditCard className="w-4 h-4 stroke-[2.5]" />
+              <span>Bayar Rp 49.000 via QRIS</span>
+            </Button>
+            <p className="text-[10px] text-zinc-500 text-center font-bold uppercase tracking-wider flex items-center justify-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-black" />
+              <span>Didukung Pembayaran Resmi QRIS oleh Pakasir</span>
+            </p>
           </div>
         </div>
       </Modal>

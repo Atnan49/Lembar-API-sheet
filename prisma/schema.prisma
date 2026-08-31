@@ -8,14 +8,17 @@ datasource db {
 }
 
 model User {
-  id         String           @id @default(cuid())
-  email      String           @unique
-  name       String?
-  image      String?
-  segmentTag String?
-  createdAt  DateTime         @default(now())
-  updatedAt  DateTime         @updatedAt
-  sheets     ConnectedSheet[]
+  id            String           @id @default(cuid())
+  email         String           @unique
+  name          String?
+  image         String?
+  segmentTag    String?
+  plan          String           @default("FREE") // "FREE", "PRO"
+  planExpiresAt DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  sheets        ConnectedSheet[]
+  transactions  Transaction[]
 }
 
 model ConnectedSheet {
@@ -51,4 +54,21 @@ model UsageLog {
 
   @@index([connectedSheetId])
   @@index([createdAt])
+}
+
+model Transaction {
+  id            String    @id @default(cuid())
+  orderId       String    @unique
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Int
+  plan          String    // "PRO_MONTHLY"
+  status        String    @default("pending") // "pending", "completed", "expired", "failed"
+  paymentMethod String?
+  paymentUrl    String?
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  @@index([userId])
+  @@index([orderId])
 }
