@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -32,6 +33,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   );
