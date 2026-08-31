@@ -13,7 +13,7 @@ export const authOptions: AuthOptions = {
         params: {
           scope: "openid email profile https://www.googleapis.com/auth/spreadsheets",
           access_type: "offline",
-          prompt: "consent",
+          prompt: "consent select_account",
           response_type: "code",
         },
       },
