@@ -22,48 +22,56 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user }) {
       if (!user.email) return false;
 
-      // Upsert user in database on each Google login
-      await prisma.user.upsert({
-        where: { email: user.email },
-        create: {
-          email: user.email,
-          name: user.name ?? null,
-          image: user.image ?? null,
-        },
-        update: {
-          name: user.name ?? null,
-          image: user.image ?? null,
-        },
-      });
+      try {
+        // Upsert user in database on each Google login
+        await prisma.user.upsert({
+          where: { email: user.email },
+          create: {
+            email: user.email,
+            name: user.name ?? null,
+            image: user.image ?? null,
+          },
+          update: {
+            name: user.name ?? null,
+            image: user.image ?? null,
+          },
+        });
+      } catch (err) {
+        console.error("Prisma user upsert error during signIn:", err);
+      }
 
       return true;
     },
     async jwt({ token, account, user }) {
-      if (user?.email) {
-        const dbUser = await prisma.user.findUnique({
-          where: { email: user.email },
-          select: { id: true, segmentTag: true },
-        });
+      try {
+        if (user?.email) {
+          const dbUser = await prisma.user.findUnique({
+            where: { email: user.email },
+            select: { id: true, segmentTag: true },
+          });
 
-        if (dbUser) {
-          token.userId = dbUser.id;
-          token.segmentTag = dbUser.segmentTag;
+          if (dbUser) {
+            token.userId = dbUser.id;
+            token.segmentTag = dbUser.segmentTag;
+          }
         }
-      }
 
-      // Store encrypted refresh token temporarily in JWT if received during OAuth consent
-      if (account?.refresh_token) {
-        token.encryptedRefreshToken = encryptToken(account.refresh_token);
+        // Store encrypted refresh token temporarily in JWT if received during OAuth consent
+        if (account?.refresh_token) {
+          token.encryptedRefreshToken = encryptToken(account.refresh_token);
+        }
+      } catch (err) {
+        console.error("JWT callback error:", err);
       }
 
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.userId as string;
+        session.user.id = (token.userId as string) || (token.sub as string);
         session.user.segmentTag = token.segmentTag as string | null;
         session.user.encryptedRefreshToken = token.encryptedRefreshToken as string | undefined;
       }
