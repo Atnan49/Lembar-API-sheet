@@ -125,6 +125,9 @@ export default function DashboardPage() {
       if (!session.user?.segmentTag) {
         setShowSurvey(true);
       }
+      if (typeof window !== "undefined" && new URLSearchParams(window.location.search).get("upgrade") === "true") {
+        setIsUpgradeModalOpen(true);
+      }
     }
   }, [status, session]);
 

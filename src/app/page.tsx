@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSession, signIn } from "next-auth/react";
 import {
   Database,
@@ -21,8 +22,25 @@ import { Badge } from "@/components/ui/badge";
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"read" | "append" | "create">("read");
   const [copied, setCopied] = useState(false);
+
+  const handleUpgradeClick = () => {
+    if (session) {
+      router.push("/dashboard?upgrade=true");
+    } else {
+      signIn("google", { callbackUrl: "/dashboard?upgrade=true" });
+    }
+  };
+
+  const handleFreeClick = () => {
+    if (session) {
+      router.push("/dashboard");
+    } else {
+      signIn("google", { callbackUrl: "/dashboard" });
+    }
+  };
 
   // Playground simulation data
   const demoApiKey = "lmbr_live_demo847291";
@@ -436,7 +454,7 @@ export default function HomePage() {
               variant="primary"
               size="md"
               className="w-full justify-center"
-              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              onClick={handleFreeClick}
             >
               Gunakan Sekarang
             </Button>
@@ -480,7 +498,7 @@ export default function HomePage() {
               variant="primary"
               size="md"
               className="w-full justify-center bg-[#ffe600] hover:bg-black hover:text-white"
-              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              onClick={handleUpgradeClick}
             >
               Upgrade PRO (QRIS)
             </Button>
