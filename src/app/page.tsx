@@ -404,9 +404,9 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Free Tier (Active in Beta) */}
-          <div className="border-3 border-black bg-white p-6 shadow-[6px_6px_0px_#000000] border-t-[6px] border-t-[#ffe600] flex flex-col justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Free Beta Tier */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-extrabold text-base uppercase tracking-wider text-black">
@@ -417,7 +417,7 @@ export default function HomePage() {
               <div className="text-3xl font-extrabold font-mono text-black my-3">
                 Rp0 <span className="text-xs font-normal text-zinc-600">/bln</span>
               </div>
-              <ul className="space-y-2 text-xs font-bold text-zinc-800 my-4 border-t-2 border-black pt-4">
+              <ul className="space-y-2 text-xs font-bold text-zinc-700 my-4 border-t-2 border-black pt-4">
                 <li className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-black stroke-[3]" />
                   <span>1.000 request / bulan</span>
@@ -434,70 +434,56 @@ export default function HomePage() {
             </div>
             <Button
               variant="primary"
-              size="sm"
-              className="w-full justify-center mt-4"
+              size="md"
+              className="w-full justify-center"
               onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
             >
               Gunakan Sekarang
             </Button>
           </div>
 
-          {/* Starter Tier */}
-          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+          {/* Pro Tier (Aktif dengan Pakasir) */}
+          <div className="border-3 border-black bg-white p-6 shadow-[6px_6px_0px_#000000] flex flex-col justify-between relative bg-yellow-50/20">
+            <div className="absolute -top-3 right-4 bg-[#ffe600] border-2 border-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider shadow-[2px_2px_0px_#000]">
+              Paling Populer
+            </div>
             <div>
-              <div className="font-extrabold text-base uppercase tracking-wider text-black mb-2">
-                Starter
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-extrabold text-base uppercase tracking-wider text-black">
+                  Lembar PRO
+                </span>
+                <Badge variant="black">QRIS Auto-Aktif</Badge>
               </div>
-              <div className="text-2xl font-extrabold font-mono text-black my-3">
+              <div className="text-3xl font-extrabold font-mono text-black my-3">
                 Rp49rb <span className="text-xs font-normal text-zinc-600">/bln</span>
               </div>
-              <ul className="space-y-2 text-xs font-medium text-zinc-700 my-4 border-t-2 border-black pt-4">
+              <ul className="space-y-2 text-xs font-bold text-zinc-800 my-4 border-t-2 border-black pt-4">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>10.000 request / bulan</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>3 connected sheets</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>Prioritas support</span>
-                </li>
-              </ul>
-            </div>
-            <div className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider text-center py-2 border-2 border-zinc-200">
-              Fase Rilis Publik
-            </div>
-          </div>
-
-          {/* Pro Tier */}
-          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
-            <div>
-              <div className="font-extrabold text-base uppercase tracking-wider text-black mb-2">
-                Pro
-              </div>
-              <div className="text-2xl font-extrabold font-mono text-black my-3">
-                Rp99rb <span className="text-xs font-normal text-zinc-600">/bln</span>
-              </div>
-              <ul className="space-y-2 text-xs font-medium text-zinc-700 my-4 border-t-2 border-black pt-4">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
                   <span>50.000 request / bulan</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>Unlimited sheets</span>
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
+                  <span>Unlimited connected sheets</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>Webhook notifikasi</span>
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
+                  <span>Auto-create tab tanpa batas</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
+                  <span>Prioritas server & Upstash</span>
                 </li>
               </ul>
             </div>
-            <div className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider text-center py-2 border-2 border-zinc-200">
-              Fase Rilis Publik
-            </div>
+            <Button
+              variant="primary"
+              size="md"
+              className="w-full justify-center bg-[#ffe600] hover:bg-black hover:text-white"
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            >
+              Upgrade PRO (QRIS)
+            </Button>
           </div>
 
           {/* Organisasi Tier */}
@@ -506,27 +492,30 @@ export default function HomePage() {
               <div className="font-extrabold text-base uppercase tracking-wider text-black mb-2">
                 Organisasi
               </div>
-              <div className="text-2xl font-extrabold font-mono text-black my-3">
+              <div className="text-3xl font-extrabold font-mono text-black my-3">
                 Rp199rb <span className="text-xs font-normal text-zinc-600">/bln</span>
               </div>
-              <ul className="space-y-2 text-xs font-medium text-zinc-700 my-4 border-t-2 border-black pt-4">
+              <ul className="space-y-2 text-xs font-bold text-zinc-700 my-4 border-t-2 border-black pt-4">
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
                   <span>150.000 request / bulan</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
                   <span>Multi-user (Role Access)</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[2.5]" />
-                  <span>Audit log lengkap</span>
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
+                  <span>Audit log lengkap & SLA 99.9%</span>
                 </li>
               </ul>
             </div>
-            <div className="text-[11px] font-bold text-zinc-500 uppercase tracking-wider text-center py-2 border-2 border-zinc-200">
-              Fase Rilis Publik
-            </div>
+            <a
+              href="mailto:support@atnan.my.id?subject=Inquiry%20Paket%20Organisasi%20Lembar"
+              className="w-full text-center inline-block py-2 text-xs font-extrabold uppercase border-2 border-black bg-zinc-100 hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_#000]"
+            >
+              Hubungi Tim
+            </a>
           </div>
         </div>
       </section>
