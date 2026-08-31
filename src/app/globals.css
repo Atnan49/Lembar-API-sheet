@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --cyber-yellow: #ffe600;
+  --cyber-red: #ff3b30;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Neo-Brutalism selection styling */
+::selection {
+  background-color: #ffe600;
+  color: #000000;
+}
+
+/* Custom 3px border utility */
+.border-3 {
+  border-width: 3px;
+}
+
+/* Focus styles for keyboard accessibility (WCAG AA) */
+:focus-visible {
+  outline: 3px solid #000000 !important;
+  outline-offset: 2px !important;
+}
+
+/* Clean code block scrollbar */
+pre::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+pre::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+  background: #f4f4f5;
+  border: 1px solid #000000;
+}
+
+pre::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+  background: #000000;
+}

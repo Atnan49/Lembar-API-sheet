@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String           @id @default(cuid())
+  email      String           @unique
+  name       String?
+  image      String?
+  segmentTag String?
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  sheets     ConnectedSheet[]
+}
+
+model ConnectedSheet {
+  id                    String     @id @default(cuid())
+  userId                String
+  user                  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  spreadsheetId         String
+  spreadsheetName       String
+  refreshTokenEncrypted String
+  apiKey                String     @unique
+  apiKeyHash            String     @unique
+  apiKeyPrefix          String
+  requestCount          Int        @default(0)
+  quotaLimit            Int        @default(1000)
+  quotaResetAt          DateTime   @default(now())
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  usageLogs             UsageLog[]
+
+  @@index([apiKeyHash])
+  @@index([userId])
+}
+
+model UsageLog {
+  id               String         @id @default(cuid())
+  connectedSheetId String
+  connectedSheet   ConnectedSheet @relation(fields: [connectedSheetId], references: [id], onDelete: Cascade)
+  endpoint         String
+  method           String
+  statusCode       Int
+  responseTimeMs   Int?
+  createdAt        DateTime       @default(now())
+
+  @@index([connectedSheetId])
+  @@index([createdAt])
+}
