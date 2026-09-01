@@ -1,0 +1,30 @@
+# Lembar API - Google Sheets to REST API Platform
+
+> Lembar is a modern, developer-friendly and no-code friendly platform that turns Google Sheets spreadsheets into production-ready REST APIs in seconds.
+
+## Overview
+- **Website:** https://lembar.atnan.my.id
+- **Documentation:** https://lembar.atnan.my.id/docs
+- **Contact:** info@atnan.my.id
+- **Architecture:** Next.js 15, PostgreSQL (Neon), Upstash Redis, Google Sheets API v4, AES-256-GCM OAuth token encryption.
+
+## Key Capabilities
+1. **Auto-Create Tab & Header Row:** Create a new tab on an existing connected Google Sheet and automatically initialize column headers via `POST /api/v1/:apiKey/:sheetName/create`.
+2. **Single OAuth Consent:** Seamless Google OAuth login that requests spreadsheet access in a single unified consent screen.
+3. **Full CRUD REST Endpoints:**
+   - `GET /api/v1/:apiKey/:sheetName`: Retrieve all rows as JSON objects with automatic header mapping.
+   - `POST /api/v1/:apiKey/:sheetName`: Append a new row to the sheet.
+   - `PUT /api/v1/:apiKey/:sheetName/:rowId`: Update an existing row by row index.
+   - `DELETE /api/v1/:apiKey/:sheetName/:rowId`: Delete an existing row by row index.
+4. **Security & Data Privacy:** Zero permanent storage of sheet data; OAuth refresh tokens are encrypted at-rest with AES-256-GCM; rate limiting via Upstash Redis; formula injection protection.
+5. **Pricing:**
+   - Free Beta: 1,000 requests/month, 1 sheet.
+   - PRO: 50,000 requests/month, unlimited sheets, instant QRIS billing (Rp 49.000/month).
+
+## Standard Endpoints
+- Base URL: `https://lembar.atnan.my.id/api/v1`
+- Read: `GET https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}`
+- Append: `POST https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}` (Payload: JSON object)
+- Update: `PUT https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}/{rowId}` (Payload: JSON object)
+- Delete: `DELETE https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}/{rowId}`
+- Auto-Create Tab: `POST https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}/create` (Payload: `{"headers": ["col1", "col2"]}`)

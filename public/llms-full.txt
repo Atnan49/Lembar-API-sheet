@@ -1,0 +1,87 @@
+# Lembar API Full Specification & Integration Guide
+
+## 1. Authentication
+All API requests use API key passed in the URL path:
+`https://lembar.atnan.my.id/api/v1/{apiKey}/{sheetName}`
+
+## 2. API Endpoints
+
+### A. Read Rows (GET)
+Returns all rows mapped by header names.
+```bash
+curl -X GET "https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Peserta"
+```
+Response:
+```json
+{
+  "success": true,
+  "totalRows": 2,
+  "headers": ["nama", "email", "status"],
+  "data": [
+    { "_rowNumber": 2, "nama": "Budi Santoso", "email": "budi@example.com", "status": "hadir" },
+    { "_rowNumber": 3, "nama": "Siti Rahma", "email": "siti@example.com", "status": "hadir" }
+  ]
+}
+```
+
+### B. Append Row (POST)
+Appends a single JSON row object to the end of the sheet.
+```bash
+curl -X POST "https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Peserta" \
+  -H "Content-Type: application/json" \
+  -d '{"nama": "Ahmad Fauzi", "email": "ahmad@example.com", "status": "hadir"}'
+```
+
+### C. Update Row (PUT)
+Updates a specific row by its row number (rowId >= 2).
+```bash
+curl -X PUT "https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Peserta/2" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "lulus"}'
+```
+
+### D. Delete Row (DELETE)
+Deletes a row from the sheet.
+```bash
+curl -X DELETE "https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Peserta/2"
+```
+
+### E. Auto-Create Tab & Headers (POST)
+Creates a new sheet tab and populates header row in row 1.
+```bash
+curl -X POST "https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/TabBaru/create" \
+  -H "Content-Type: application/json" \
+  -d '{"headers": ["nama", "email", "status", "nilai"]}'
+```
+
+## 3. Code Examples
+
+### JavaScript (fetch)
+```javascript
+const res = await fetch("https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Sheet1", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ nama: "Budi", status: "hadir" }),
+});
+const data = await res.json();
+```
+
+### PHP (Laravel Http)
+```php
+use Illuminate\Support\Facades\Http;
+
+$response = Http::post("https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Sheet1", [
+    "nama" => "Budi",
+    "status" => "hadir",
+]);
+$data = $response->json();
+```
+
+### Python (requests)
+```python
+import requests
+
+payload = {"nama": "Budi", "status": "hadir"}
+response = requests.post("https://lembar.atnan.my.id/api/v1/YOUR_API_KEY/Sheet1", json=payload)
+data = response.json()
+```

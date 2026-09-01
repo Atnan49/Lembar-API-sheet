@@ -15,6 +15,8 @@ import {
   ShieldCheck,
   Zap,
   Code2,
+  ChevronDown,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
@@ -25,6 +27,11 @@ export default function HomePage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"read" | "append" | "create">("read");
   const [copied, setCopied] = useState(false);
+  const [openFaq, setOpenFaq] = useState<Record<number, boolean>>({ 0: true });
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
 
   const handleUpgradeClick = () => {
     if (session) {
@@ -535,6 +542,71 @@ export default function HomePage() {
               Hubungi Tim
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* FAQ Section (AEO & Search Engine Snippets) */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 w-full py-8">
+        <div className="border-b-3 border-black pb-4 mb-8 text-center sm:text-left">
+          <Badge variant="yellow" className="mb-2">
+            Pertanyaan Umum
+          </Badge>
+          <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black">
+            FAQ Seputar Lembar API
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-700 font-medium mt-1">
+            Jawaban lengkap untuk pertanyaan teknis dan operasional yang sering diajukan.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            {
+              q: "Apa itu Lembar dan bagaimana cara kerjanya?",
+              a: "Lembar adalah platform yang mengubah spreadsheet Google Sheets Anda menjadi REST API instan siap pakai. Anda cukup login dengan akun Google (single consent), masukkan link spreadsheet, dan Anda langsung mendapatkan endpoint REST (GET, POST, PUT, DELETE) serta API Key terlindungi.",
+            },
+            {
+              q: "Bagaimana cara kerja fitur Auto-Create Tab & Header?",
+              a: "Lembar menyediakan endpoint khusus 'POST /api/v1/:apiKey/:sheetName/create'. Melalui endpoint ini, aplikasi Anda bisa membuat tab baru di spreadsheet sekaligus mendefinisikan nama baris kolom header secara otomatis tanpa perlu membuka dokumen Google Sheets manual.",
+            },
+            {
+              q: "Apakah data spreadsheet saya disimpan di server Lembar?",
+              a: "Tidak. Lembar menganut prinsip minimalisasi data: data spreadsheet Anda tetap berada di Google Sheets milik Anda. Lembar hanya bertindak sebagai gateway perantara aman. Kredensial OAuth dienkripsi at-rest menggunakan algoritma AES-256-GCM berstandar industri.",
+            },
+            {
+              q: "Platform apa saja yang bisa diintegrasikan dengan Lembar?",
+              a: "Lembar menghasilkan REST API berbasis JSON standar yang dapat dihubungkan ke platform no-code/low-code (Glide, Bubble, FlutterFlow, AppSheet, Webflow), frontend web (React, Next.js, Vue, Vanilla JS), backend (Node.js, Laravel, Django, Python), maupun otomasi (Make, n8n, Zapier).",
+            },
+            {
+              q: "Bagaimana cara melakukan upgrade ke Lembar PRO?",
+              a: "Anda dapat melakukan upgrade langsung dari Dashboard dengan mengklik tombol 'Upgrade PRO'. Pembayaran didukung otomatis secara instan via QRIS Pakasir (BCA, Mandiri, GoPay, OVO, DANA, ShopeePay) seharga Rp 49.000 / bulan untuk 50.000 request.",
+            },
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className="border-2 border-black bg-white shadow-[4px_4px_0px_#000000] overflow-hidden transition-all"
+            >
+              <button
+                onClick={() => toggleFaq(idx)}
+                className="w-full p-4 sm:p-5 flex items-center justify-between text-left font-extrabold uppercase text-xs sm:text-sm tracking-wide text-black hover:bg-zinc-50"
+              >
+                <div className="flex items-center gap-3">
+                  <HelpCircle className="w-4 h-4 text-black shrink-0" />
+                  <span>{item.q}</span>
+                </div>
+                <ChevronDown
+                  className={`w-4 h-4 text-black shrink-0 transition-transform duration-200 ${
+                    openFaq[idx] ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {openFaq[idx] && (
+                <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-zinc-800 font-medium leading-relaxed border-t-2 border-black pt-3 bg-zinc-50/50">
+                  {item.a}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
