@@ -878,6 +878,11 @@ print(data)`}
 
           {/* Payment CTA Buttons */}
           <div className="flex flex-col gap-3 pt-3 border-t-2 border-black">
+            {/* Status KYC Note */}
+            <div className="bg-zinc-50 border border-zinc-300 p-2.5 text-[11px] text-zinc-700 leading-snug">
+              <span className="font-bold text-black">Catatan:</span> Proyek pembayaran QRIS sedang dalam verifikasi KYC Pakasir (<em>In Review</em>). Anda dapat mencoba pembayaran via QRIS atau aktivasi langsung melalui admin.
+            </div>
+
             <Button
               variant="primary"
               size="lg"
@@ -886,8 +891,16 @@ print(data)`}
               isLoading={isCheckingOut}
             >
               <CreditCard className="w-4 h-4 stroke-[2.5]" />
-              <span>Bayar Rp 49.000 via QRIS</span>
+              <span>Bayar Rp 49.000 via QRIS (Pakasir)</span>
             </Button>
+
+            <a
+              href="mailto:info@atnan.my.id?subject=Konfirmasi%20Aktivasi%20Manual%20Lembar%20PRO&body=Halo%20Admin%20Lembar,%0A%0ASaya%20ingin%20mengaktifkan%20paket%20PRO%20untuk%20akun:%20"
+              className="w-full text-center py-2.5 text-xs font-extrabold uppercase border-2 border-black bg-zinc-100 hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_#000] flex items-center justify-center gap-2"
+            >
+              <span>Aktivasi Cepat via Admin (info@atnan.my.id)</span>
+            </a>
+
             <p className="text-[10px] text-zinc-500 text-center font-bold uppercase tracking-wider flex items-center justify-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-black" />
               <span>Didukung Pembayaran Resmi QRIS oleh Pakasir</span>

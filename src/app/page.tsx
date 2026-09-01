@@ -470,7 +470,7 @@ export default function HomePage() {
                 <span className="font-extrabold text-base uppercase tracking-wider text-black">
                   Lembar PRO
                 </span>
-                <Badge variant="black">QRIS Auto-Aktif</Badge>
+                <Badge variant="black">QRIS / Manual</Badge>
               </div>
               <div className="text-3xl font-extrabold font-mono text-black my-3">
                 Rp49rb <span className="text-xs font-normal text-zinc-600">/bln</span>
