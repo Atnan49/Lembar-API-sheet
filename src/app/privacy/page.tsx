@@ -83,6 +83,21 @@ export default function PrivacyPage() {
             Anda memiliki kontrol penuh atas data Anda. Kapan saja Anda memilih untuk menghapus akun atau memutuskan (disconnect) spreadsheet dari dashboard, token enkripsi dan data terkait akan dihapus secara permanen (hard delete) dari database kami. Anda juga dapat mencabut izin akses Lembar langsung melalui pengaturan akun Google Anda di menu Keamanan Google.
           </p>
         </section>
+
+        <section className="border-2 border-black p-6 bg-white shadow-[4px_4px_0px_#000000]">
+          <h2 className="text-base font-extrabold uppercase tracking-wider text-black mb-3">
+            5. Kontak & Permintaan Bantuan
+          </h2>
+          <p>
+            Apabila Anda memiliki pertanyaan mengenai kebijakan privasi, permohonan penghapusan data akun, atau kendala keamanan lainnya, silakan hubungi kami melalui email resmi:{" "}
+            <a
+              href="mailto:info@atnan.my.id"
+              className="font-bold text-black underline underline-offset-4 hover:bg-[#ffe600] px-1"
+            >
+              info@atnan.my.id
+            </a>.
+          </p>
+        </section>
       </div>
     </div>
   );

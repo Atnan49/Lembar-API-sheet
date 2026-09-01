@@ -38,6 +38,12 @@ export function Footer() {
           <Link href="/terms" className="hover:underline underline-offset-4">
             Syarat Layanan
           </Link>
+          <a
+            href="mailto:info@atnan.my.id"
+            className="hover:underline underline-offset-4 text-zinc-900 flex items-center gap-1"
+          >
+            <span>Kontak: info@atnan.my.id</span>
+          </a>
         </div>
 
         {/* Status / Copyright */}

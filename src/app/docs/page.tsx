@@ -285,6 +285,22 @@ print(data)`;
             <pre>{getCodeSnippet("Peserta/2", "DELETE")}</pre>
           </div>
         </div>
+
+        {/* 6. Bantuan & Dukungan Teknis */}
+        <div className="border-2 border-black bg-[#ffe600] p-6 shadow-[4px_4px_0px_#000000]">
+          <h2 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+            Butuh Bantuan Integrasi atau Fitur Custom?
+          </h2>
+          <p className="text-xs sm:text-sm text-black font-medium mb-3">
+            Jika Anda mengalami kendala teknis atau membutuhkan kuota khusus untuk proyek besar, hubungi kami melalui email:
+          </p>
+          <a
+            href="mailto:info@atnan.my.id"
+            className="inline-block px-4 py-2 bg-black text-white text-xs font-extrabold uppercase tracking-wider hover:bg-white hover:text-black border-2 border-black transition-all"
+          >
+            Hubungi info@atnan.my.id
+          </a>
+        </div>
       </div>
     </div>
   );

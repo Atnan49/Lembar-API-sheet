@@ -529,7 +529,7 @@ export default function HomePage() {
               </ul>
             </div>
             <a
-              href="mailto:support@atnan.my.id?subject=Inquiry%20Paket%20Organisasi%20Lembar"
+              href="mailto:info@atnan.my.id?subject=Inquiry%20Paket%20Organisasi%20Lembar"
               className="w-full text-center inline-block py-2 text-xs font-extrabold uppercase border-2 border-black bg-zinc-100 hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_#000]"
             >
               Hubungi Tim

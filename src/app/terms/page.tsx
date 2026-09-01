@@ -69,6 +69,21 @@ export default function TermsPage() {
             Lembar beroperasi sebagai jembatan API berbasis Google Sheets. Kami tidak bertanggung jawab atas kegagalan eksternal dari layanan Google Cloud Platform, gangguan jaringan telekomunikasi pihak ketiga, atau kehilangan data akibat modifikasi manual pengguna langsung pada dokumen spreadsheet.
           </p>
         </section>
+
+        <section className="border-2 border-black p-6 bg-white shadow-[4px_4px_0px_#000000]">
+          <h2 className="text-base font-extrabold uppercase tracking-wider text-black mb-3">
+            5. Kontak dan Bantuan
+          </h2>
+          <p>
+            Untuk pertanyaan seputar ketentuan layanan, kerja sama kemitraan, atau pelaporan masalah teknis, Anda dapat menghubungi kami melalui:{" "}
+            <a
+              href="mailto:info@atnan.my.id"
+              className="font-bold text-black underline underline-offset-4 hover:bg-[#ffe600] px-1"
+            >
+              info@atnan.my.id
+            </a>.
+          </p>
+        </section>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-# Lembar (Google Sheets to REST API)
+# Lembar - Google Sheets to REST API
 
 > Platform pengubah spreadsheet Google Sheets menjadi REST API instan dengan onboarding OAuth Google single-consent dan fitur **auto-create tab + header row** via API.
 
@@ -13,6 +13,7 @@
   - `GET /api/v1/:apiKey/:sheetName` (Baca seluruh baris sebagai JSON)
   - `PUT /api/v1/:apiKey/:sheetName/:rowId` (Update baris tertentu)
   - `DELETE /api/v1/:apiKey/:sheetName/:rowId` (Hapus baris tertentu)
+- **Payment Gateway Integrasi Pakasir:** Upgrade mandiri paket PRO (50.000 req/bulan) via QRIS otomatis instan.
 - **Keamanan:** Enkripsi token OAuth at-rest (AES-256-GCM), hashing API key (SHA-256), dan sanitasi otomatis dari serangan Google Sheets Formula Injection.
 - **Sistem Desain:** Neo-Brutalism & Wireframe-inspired (0px border radius, garis tepi hitam tegas, high-contrast, dan WCAG AA accessibility).
 
@@ -34,7 +35,8 @@ Isi variabel lingkungan berikut:
 - `DATABASE_URL`: Connection string PostgreSQL (Neon / Supabase / Postgres lokal)
 - `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET`: Kredensial OAuth dari Google Cloud Console
 - `ENCRYPTION_KEY`: 32-byte hex string (e.g. hasil `openssl rand -hex 32`)
-- `UPSTASH_REDIS_REST_URL` & `UPSTASH_REDIS_REST_TOKEN`: Kredensial Upstash Redis (opsional untuk lokal, ada fallback in-memory)
+- `UPSTASH_REDIS_REST_URL` & `UPSTASH_REDIS_REST_TOKEN`: Kredensial Upstash Redis
+- `PAKASIR_API_KEY` & `PAKASIR_SLUG`: Kredensial payment gateway Pakasir
 
 ### 2. Setup Database Prisma
 
@@ -52,3 +54,10 @@ npm run dev
 ```
 
 Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
+
+---
+
+## Kontak & Bantuan Resmi
+
+- **Website:** [https://lembar.atnan.my.id](https://lembar.atnan.my.id)
+- **Email Kontak Resmi:** [info@atnan.my.id](mailto:info@atnan.my.id)
