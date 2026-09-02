@@ -726,21 +726,43 @@ export default function HomePage() {
         <div className="bg-[#ffe600] border-3 border-black p-8 sm:p-12 shadow-[6px_6px_0px_#000000] flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="max-w-xl">
             <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black leading-tight">
-              Siap Membangun Backend dari Google Sheets?
+              {session
+                ? isProActive
+                  ? "Kelola Spreadsheet & API Key Anda"
+                  : "Mulai Hubungkan Google Sheets Anda"
+                : "Siap Membangun Backend dari Google Sheets?"}
             </h2>
             <p className="text-sm font-bold text-black mt-2">
-              Daftar sekarang di Closed Beta dan dapatkan 1.000 request gratis setiap bulan.
+              {session
+                ? isProActive
+                  ? `Login sebagai ${session.user?.email} (Lembar PRO). Buka dashboard untuk mengelola koneksi spreadsheet dan API key Anda.`
+                  : `Login sebagai ${session.user?.email}. Buka dashboard untuk menghubungkan spreadsheet atau upgrade kuota.`
+                : "Daftar sekarang di Closed Beta dan dapatkan 1.000 request gratis setiap bulan."}
             </p>
           </div>
-          <Button
-            variant="secondary"
-            size="lg"
-            className="bg-white text-black hover:bg-black hover:text-white border-2 border-black shadow-[4px_4px_0px_#000000] shrink-0"
-            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-          >
-            <span>Daftar dengan Google</span>
-            <ArrowRight className="w-5 h-5 stroke-[2.5]" />
-          </Button>
+          {session ? (
+            <Link href="/dashboard" className="shrink-0">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="bg-white text-black hover:bg-black hover:text-white border-2 border-black shadow-[4px_4px_0px_#000000] shrink-0"
+              >
+                <LayoutDashboard className="w-5 h-5 stroke-[2.5]" />
+                <span>Buka Dashboard</span>
+                <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              variant="secondary"
+              size="lg"
+              className="bg-white text-black hover:bg-black hover:text-white border-2 border-black shadow-[4px_4px_0px_#000000] shrink-0"
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            >
+              <span>Daftar dengan Google</span>
+              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+            </Button>
+          )}
         </div>
       </section>
     </div>
