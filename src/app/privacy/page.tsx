@@ -57,10 +57,19 @@ export default function PrivacyPage() {
 
         <section className="border-2 border-black p-6 bg-white shadow-[4px_4px_0px_#000000]">
           <h2 className="text-base font-extrabold uppercase tracking-wider text-black mb-3">
-            3. Penggunaan dan Keamanan Refresh Token
+            3. Penggunaan dan Keamanan Data Google (Google API Limited Use Disclosure)
           </h2>
           <p className="mb-3">
-            Sesuai dengan Kebijakan Data Pengguna Layanan API Google (Google API Services User Data Policy):
+            Penggunaan dan transfer informasi yang diterima dari Google APIs oleh <strong>Lembar</strong> ke aplikasi lain akan mematuhi{" "}
+            <a
+              href="https://developers.google.com/terms/api-services-user-data-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold underline underline-offset-4 hover:bg-[#ffe600] px-1 text-black"
+            >
+              Google API Services User Data Policy
+            </a>
+            , termasuk persyaratan <em>Limited Use</em>:
           </p>
           <ul className="list-disc list-inside space-y-2 text-zinc-700">
             <li>
@@ -70,7 +79,10 @@ export default function PrivacyPage() {
               Kunci enkripsi disimpan terpisah pada variabel lingkungan server (environment variables) yang terlindungi.
             </li>
             <li>
-              Kami tidak pernah menjual, menyewakan, atau membagikan token akses Google Anda kepada pihak ketiga mana pun.
+              Kami tidak pernah menjual, menyewakan, atau mentransfer data pengguna Google Anda kepada pihak ketiga atau jaringan periklanan.
+            </li>
+            <li>
+              Data Google Sheets pengguna hanya diakses secara langsung saat ada instruksi request API yang terotentikasi dan tidak digunakan untuk melatih model kecerdasan buatan (AI/ML).
             </li>
           </ul>
         </section>
