@@ -21,7 +21,7 @@ export function JsonLd() {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "IDR",
-            "name": "Free Beta",
+            "name": "Free Tier",
             "description": "1.000 requests per bulan, 1 connected sheet, auto-create tab",
           },
           {
@@ -106,7 +106,7 @@ export function JsonLd() {
             "name": "Berapa kuota request bulanan yang disediakan?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Tier Free Beta menyediakan 1.000 request per bulan. Anda dapat melakukan upgrade ke tier PRO seharga Rp 49.000/bulan untuk mendapatkan 50.000 request per bulan dan unlimited connected sheets.",
+              "text": "Tier Free menyediakan 1.000 request per bulan. Anda dapat melakukan upgrade ke tier PRO seharga Rp 49.000/bulan untuk mendapatkan 50.000 request per bulan dan unlimited connected sheets.",
             },
           },
         ],

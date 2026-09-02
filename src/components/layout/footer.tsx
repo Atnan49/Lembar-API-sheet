@@ -51,7 +51,7 @@ export function Footer() {
 
         {/* Status / Copyright / Creator */}
         <div className="text-xs text-zinc-600 font-bold uppercase tracking-wider text-center md:text-right flex flex-col items-center md:items-end gap-1">
-          <div>Closed Beta &bull; lembar.atnan.my.id</div>
+          <div>lembar.atnan.my.id</div>
           <div className="text-[11px] text-black font-extrabold tracking-wider">
             Developed by <span className="bg-[#ffe600] px-1.5 py-0.5 border border-black text-black inline-block shadow-[1px_1px_0px_#000000]">AtnanLabs</span>
           </div>

@@ -120,7 +120,7 @@ export default function PricingPage() {
                       month: "long",
                       year: "numeric",
                     })} (Kuota: 50.000 req/bulan)`
-                  : "Anda saat ini berada di paket Free Beta (1.000 req/bulan, 1 sheet)."}
+                  : "Anda saat ini berada di paket Free Tier (1.000 req/bulan, 1 sheet)."}
               </p>
             </div>
           </div>
@@ -150,12 +150,12 @@ export default function PricingPage() {
 
       {/* Pricing Cards Grid */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
-        {/* Tier 1: Free Beta */}
+        {/* Tier 1: Free Tier */}
         <div className="border-2 border-black bg-white p-6 sm:p-7 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="font-extrabold text-lg uppercase tracking-wider text-black">
-                Free Beta
+                Free Tier
               </span>
               <Badge variant="yellow">Mulai Gratis</Badge>
             </div>
@@ -334,7 +334,7 @@ export default function PricingPage() {
             <thead>
               <tr className="border-b-3 border-black bg-zinc-100 font-extrabold uppercase tracking-wider text-black">
                 <th className="p-4 border-r-2 border-black min-w-[200px]">Fitur & Kapabilitas</th>
-                <th className="p-4 border-r-2 border-black text-center min-w-[120px]">Free Beta</th>
+                <th className="p-4 border-r-2 border-black text-center min-w-[120px]">Free Tier</th>
                 <th className="p-4 border-r-2 border-black text-center bg-[#ffe600] min-w-[140px]">Lembar PRO</th>
                 <th className="p-4 text-center min-w-[140px]">Organisasi</th>
               </tr>

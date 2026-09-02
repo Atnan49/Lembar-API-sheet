@@ -37,15 +37,15 @@ export default function TermsPage() {
 
         <section className="border-2 border-black p-6 bg-white shadow-[4px_4px_0px_#000000]">
           <h2 className="text-base font-extrabold uppercase tracking-wider text-black mb-3">
-            2. Ketentuan Fase Closed Beta
+            2. Ketentuan Kuota dan Layanan
           </h2>
           <p className="mb-2">
-            Layanan saat ini beroperasi dalam status Closed Beta (uji coba tertutup). Selama fase ini:
+            Layanan Lembar beroperasi dengan ketentuan pemakaian sebagai berikut:
           </p>
           <ul className="list-disc list-inside space-y-2 text-zinc-700">
-            <li>Layanan disediakan dengan kuota Free sebesar 1.000 request per bulan untuk tiap API key.</li>
-            <li>Akses pengguna dibatasi maksimal 100 pengguna terdaftar sesuai batasan pengujian Google OAuth.</li>
-            <li>Pengguna setuju untuk menggunakan layanan secara wajar dan dapat memberikan umpan balik untuk peningkatan performa platform.</li>
+            <li>Pengguna baru berhak mendapatkan kuota Free Tier sebesar 1.000 request per bulan untuk 1 spreadsheet terhubung.</li>
+            <li>Pengguna dapat melakukan upgrade ke Lembar PRO (50.000 request per bulan dan unlimited sheets) melalui pembayaran QRIS instan.</li>
+            <li>Pengguna setuju untuk menggunakan layanan secara wajar sesuai dengan batas kuota paket yang aktif.</li>
           </ul>
         </section>
 

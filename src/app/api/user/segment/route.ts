@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * POST /api/user/segment
- * Saves the user's closed beta segmentation answer ("Kamu pakai Lembar buat apa?").
+ * Saves the user's segmentation answer ("Kamu pakai Lembar buat apa?").
  */
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);

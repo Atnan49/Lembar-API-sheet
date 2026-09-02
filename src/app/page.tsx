@@ -131,7 +131,7 @@ export default function HomePage() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col items-start gap-6 max-w-3xl">
           <Badge variant="yellow" className="text-xs">
-            Closed Beta 2026
+            REST API Platform
           </Badge>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight text-black leading-none">
@@ -618,7 +618,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-2 border-black p-5 bg-zinc-50 flex flex-col justify-between">
                 <div>
-                  <div className="font-extrabold text-base uppercase text-black">Free Beta</div>
+                  <div className="font-extrabold text-base uppercase text-black">Free Tier</div>
                   <div className="text-2xl font-extrabold font-mono text-black my-2">Rp0 <span className="text-xs font-normal">/bln</span></div>
                   <p className="text-xs text-zinc-700 font-medium">1.000 req/bulan, 1 sheet, auto-create tab, proteksi formula.</p>
                 </div>
@@ -737,7 +737,7 @@ export default function HomePage() {
                 ? isProActive
                   ? `Login sebagai ${session.user?.email} (Lembar PRO). Buka dashboard untuk mengelola koneksi spreadsheet dan API key Anda.`
                   : `Login sebagai ${session.user?.email}. Buka dashboard untuk menghubungkan spreadsheet atau upgrade kuota.`
-                : "Daftar sekarang di Closed Beta dan dapatkan 1.000 request gratis setiap bulan."}
+                : "Daftar sekarang dan dapatkan 1.000 request gratis setiap bulan."}
             </p>
           </div>
           {session ? (

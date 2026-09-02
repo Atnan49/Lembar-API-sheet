@@ -789,7 +789,7 @@ print(data)`}
         isOpen={showSurvey}
         onClose={() => setShowSurvey(false)}
         title="Selamat Datang di Lembar"
-        description="Bantu kami memahami profil pemakaian Anda untuk pengembangan Closed Beta."
+        description="Bantu kami memahami profil pemakaian Anda untuk pengembangan fitur Lembar."
       >
         <div className="flex flex-col gap-4">
           <p className="text-xs sm:text-sm font-bold text-black">
