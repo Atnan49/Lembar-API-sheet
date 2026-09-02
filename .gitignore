@@ -33,3 +33,8 @@ prisma/dev.db-journal
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Editor & Local Tools
+.vscode/
+graphify-out/.graphify_*
+graphify-out/cache/
