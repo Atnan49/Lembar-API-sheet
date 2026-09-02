@@ -11,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/docs", "/privacy", "/terms", "/icon.svg", "/logo.svg", "/opengraph-image"],
+        allow: ["/", "/pricing", "/docs", "/privacy", "/terms", "/icon.svg", "/logo.svg", "/opengraph-image"],
         disallow: [
           "/api/auth/",
           "/api/billing/",
