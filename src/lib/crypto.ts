@@ -8,6 +8,9 @@ const AUTH_TAG_LENGTH = 16;
 function getEncryptionKey(): Buffer {
   const envKey = process.env.ENCRYPTION_KEY;
   if (!envKey) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("CRITICAL SECURITY CONFIGURATION ERROR: ENCRYPTION_KEY environment variable is required in production mode.");
+    }
     // Development fallback key if not provided (32 bytes)
     return Buffer.from("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef", "hex");
   }
@@ -92,9 +95,10 @@ export function sanitizeCellValue(val: unknown): string | number | boolean | nul
   }
 
   const str = String(val);
-  const riskyChars = ["=", "+", "-", "@", "\t", "\r"];
+  const trimmed = str.trimStart();
+  const riskyChars = ["=", "+", "-", "@", "\t", "\r", "|", "%"];
 
-  if (riskyChars.some((char) => str.startsWith(char))) {
+  if (riskyChars.some((char) => trimmed.startsWith(char))) {
     return `'${str}`;
   }
 

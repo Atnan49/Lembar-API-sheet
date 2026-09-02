@@ -20,7 +20,11 @@ export interface PakasirWebhookPayload {
 
 export const PAKASIR_CONFIG = {
   get apiKey() {
-    return process.env.PAKASIR_API_KEY || "Y8XInPg0n4MFPozh9dpUii1BVKUcLBLf";
+    const key = process.env.PAKASIR_API_KEY;
+    if (!key && process.env.NODE_ENV === "production") {
+      throw new Error("CRITICAL CONFIGURATION ERROR: PAKASIR_API_KEY environment variable is required in production.");
+    }
+    return key || "Y8XInPg0n4MFPozh9dpUii1BVKUcLBLf";
   },
   get slug() {
     return process.env.PAKASIR_SLUG || "lembar-api-google-sheet";

@@ -52,6 +52,14 @@ export function Navbar() {
             Beranda
           </Link>
           <Link
+            href="/pricing"
+            className={`text-xs font-extrabold uppercase tracking-wider py-1 border-b-2 transition-colors ${
+              isActive("/pricing") ? "border-black text-black" : "border-transparent text-zinc-600 hover:text-black"
+            }`}
+          >
+            Harga
+          </Link>
+          <Link
             href="/docs"
             className={`text-xs font-extrabold uppercase tracking-wider py-1 border-b-2 transition-colors ${
               isActive("/docs") ? "border-black text-black" : "border-transparent text-zinc-600 hover:text-black"
@@ -131,6 +139,15 @@ export function Navbar() {
             }`}
           >
             Beranda
+          </Link>
+          <Link
+            href="/pricing"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={`text-sm font-extrabold uppercase tracking-wider py-2 px-3 border-2 ${
+              isActive("/pricing") ? "bg-[#ffe600] border-black text-black" : "border-black bg-white text-black"
+            }`}
+          >
+            Harga & Paket
           </Link>
           <Link
             href="/docs"

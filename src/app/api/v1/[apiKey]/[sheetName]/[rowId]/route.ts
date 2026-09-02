@@ -10,6 +10,22 @@ interface RouteParams {
   }>;
 }
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With",
+};
+
+/**
+ * OPTIONS handler for CORS preflight
+ */
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+}
+
 /**
  * PUT /api/v1/[apiKey]/[sheetName]/[rowId]
  * Updates a specific row by its row number (e.g. row 2, row 3).
@@ -22,13 +38,15 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
   if (isNaN(rowNumber) || rowNumber < 2) {
     return NextResponse.json(
       { success: false, error: "Invalid rowId. Must be an integer >= 2" },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
   const auth = await validateApiKeyRequest(apiKey, req);
   if (auth.errorResponse || !auth.context) {
-    return auth.errorResponse!;
+    const res = auth.errorResponse!;
+    Object.entries(corsHeaders).forEach(([key, val]) => res.headers.set(key, val));
+    return res;
   }
 
   let body: Record<string, unknown>;
@@ -37,14 +55,14 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
   } catch {
     return NextResponse.json(
       { success: false, error: "Invalid JSON request body" },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
   if (typeof body !== "object" || body === null || Array.isArray(body)) {
     return NextResponse.json(
       { success: false, error: "Request body must be a JSON object" },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
@@ -57,14 +75,17 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
       auth.context.refreshToken
     );
 
-    return NextResponse.json({
-      success: true,
-      message: `Row ${rowNumber} updated successfully`,
-      data: result,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: `Row ${rowNumber} updated successfully`,
+        data: result,
+      },
+      { headers: corsHeaders }
+    );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to update row in Google Sheets";
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+    return NextResponse.json({ success: false, error: message }, { status: 500, headers: corsHeaders });
   }
 }
 
@@ -80,13 +101,15 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
   if (isNaN(rowNumber) || rowNumber < 2) {
     return NextResponse.json(
       { success: false, error: "Invalid rowId. Must be an integer >= 2" },
-      { status: 400 }
+      { status: 400, headers: corsHeaders }
     );
   }
 
   const auth = await validateApiKeyRequest(apiKey, req);
   if (auth.errorResponse || !auth.context) {
-    return auth.errorResponse!;
+    const res = auth.errorResponse!;
+    Object.entries(corsHeaders).forEach(([key, val]) => res.headers.set(key, val));
+    return res;
   }
 
   try {
@@ -97,13 +120,16 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
       auth.context.refreshToken
     );
 
-    return NextResponse.json({
-      success: true,
-      message: `Row ${rowNumber} deleted successfully`,
-      data: result,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: `Row ${rowNumber} deleted successfully`,
+        data: result,
+      },
+      { headers: corsHeaders }
+    );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to delete row from Google Sheets";
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+    return NextResponse.json({ success: false, error: message }, { status: 500, headers: corsHeaders });
   }
 }

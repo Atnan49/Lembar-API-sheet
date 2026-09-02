@@ -807,7 +807,7 @@ print(data)`}
               onClick={() => handleSubmitSurvey("organization")}
               className="p-3 border-2 border-black text-left hover:bg-[#ffe600] font-extrabold uppercase text-xs transition-all active:translate-x-[1px] active:translate-y-[1px]"
             >
-              2. Organisasi / Komunitas (HIMATIF, UKM, Panitia Event)
+              2. Organisasi / Komunitas (Komunitas, UKM, Panitia Event)
             </button>
             <button
               onClick={() => handleSubmitSurvey("nocode")}

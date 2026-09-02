@@ -85,5 +85,11 @@ export const authOptions: AuthOptions = {
     signIn: "/",
     error: "/",
   },
-  secret: process.env.NEXTAUTH_SECRET || "lembar_secret_fallback_for_dev_mode_only",
+  secret:
+    process.env.NEXTAUTH_SECRET ||
+    (process.env.NODE_ENV === "production"
+      ? (() => {
+          throw new Error("NEXTAUTH_SECRET environment variable is required in production mode.");
+        })()
+      : "lembar_secret_fallback_for_dev_mode_only"),
 };

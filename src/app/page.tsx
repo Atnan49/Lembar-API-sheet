@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signIn } from "next-auth/react";
@@ -10,43 +10,50 @@ import {
   Check,
   Copy,
   Plus,
-  Play,
   Key,
   ShieldCheck,
   Zap,
   Code2,
   ChevronDown,
   HelpCircle,
+  ClipboardCheck,
+  Smartphone,
+  Cpu,
+  ShoppingBag,
+  MessageSquare,
+  Webhook,
+  Sparkles,
+  LayoutDashboard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default function HomePage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"read" | "append" | "create">("read");
   const [copied, setCopied] = useState(false);
   const [openFaq, setOpenFaq] = useState<Record<number, boolean>>({ 0: true });
+  const [userPlan, setUserPlan] = useState<"FREE" | "PRO">("FREE");
+  const [planExpiresAt, setPlanExpiresAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetch("/api/billing/status")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setUserPlan(data.plan);
+            setPlanExpiresAt(data.planExpiresAt);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [status]);
 
   const toggleFaq = (index: number) => {
     setOpenFaq((prev) => ({ ...prev, [index]: !prev[index] }));
-  };
-
-  const handleUpgradeClick = () => {
-    if (session) {
-      router.push("/dashboard?upgrade=true");
-    } else {
-      signIn("google", { callbackUrl: "/dashboard?upgrade=true" });
-    }
-  };
-
-  const handleFreeClick = () => {
-    if (session) {
-      router.push("/dashboard");
-    } else {
-      signIn("google", { callbackUrl: "/dashboard" });
-    }
   };
 
   // Playground simulation data
@@ -66,7 +73,7 @@ export default function HomePage() {
             nama: "Budi Santoso",
             email: "budi@example.com",
             status: "hadir",
-            institusi: "HIMATIF UMS",
+            institusi: "Komunitas Developer",
           },
           {
             _rowNumber: 3,
@@ -116,6 +123,8 @@ export default function HomePage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const isProActive = userPlan === "PRO";
+
   return (
     <div className="flex flex-col gap-16 sm:gap-24 py-8 sm:py-16">
       {/* Hero Section */}
@@ -156,10 +165,17 @@ export default function HomePage() {
               </Button>
             )}
 
+            <Link href="/pricing">
+              <Button variant="secondary" size="lg">
+                <Zap className="w-5 h-5 fill-current stroke-[2.5]" />
+                <span>Lihat Pilihan Paket</span>
+              </Button>
+            </Link>
+
             <Link href="/docs">
               <Button variant="secondary" size="lg">
                 <Code2 className="w-5 h-5 stroke-[2.5]" />
-                <span>Lihat Dokumentasi</span>
+                <span>Dokumentasi API</span>
               </Button>
             </Link>
           </div>
@@ -176,6 +192,129 @@ export default function HomePage() {
             <div className="flex items-center gap-2">
               <Check className="w-4 h-4 text-black stroke-[3]" />
               <span>Pencegahan Formula Injection</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW SECTION: Lembar Bisa Dipakai Buat Apa Saja? (Use Cases & Kegunaan) */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
+        <div className="border-b-3 border-black pb-4 mb-8">
+          <Badge variant="yellow">Contoh Penggunaan</Badge>
+          <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black mt-2">
+            Lembar Bisa Dipakai Buat Apa Saja?
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-700 font-medium mt-1">
+            Fleksibilitas Google Sheets sebagai database instan untuk berbagai skenario aplikasi modern.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Use Case 1 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-[#ffe600] border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <ClipboardCheck className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                1. Form Registrasi & Presensi Event
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Kirim data pendaftaran webinar, workshop, kepanitiaan, atau absensi seminar dari form web langsung ke Google Sheets secara real-time tanpa perlu database server.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Method: POST /api/v1/:key/Peserta
+            </div>
+          </div>
+
+          {/* Use Case 2 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-white border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <Smartphone className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                2. Backend Aplikasi No-Code & Low-Code
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Jadikan spreadsheet sebagai database instan untuk prototyping aplikasi di FlutterFlow, Glide, Bubble, AppSheet, atau Webflow tanpa ribet setup database SQL.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Integrasi: REST API JSON Universal
+            </div>
+          </div>
+
+          {/* Use Case 3 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-[#ffe600] border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <Cpu className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                3. Data Logger Sensor IoT & Telemetri
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Kirim pembacaan sensor suhu, kelembaban, atau status mesin dari mikrokontroler (ESP32, ESP8266, Arduino, Raspberry Pi) langsung ke spreadsheet lewat HTTP request sederhana.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Payload: &#123; &quot;suhu&quot;: 28.5, &quot;status&quot;: &quot;normal&quot; &#125;
+            </div>
+          </div>
+
+          {/* Use Case 4 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-white border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <ShoppingBag className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                4. Katalog Produk & Menu UMKM
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Kelola daftar produk, harga, dan ketersediaan stok langsung lewat tabel spreadsheet di HP atau laptop, lalu tampilkan datanya secara dinamis di website toko Anda.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Method: GET /api/v1/:key/Menu
+            </div>
+          </div>
+
+          {/* Use Case 5 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-[#ffe600] border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <MessageSquare className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                5. Form Feedback, Survei & Guestbook
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Tampung kritik, saran, testimoni pengguna, dan rating bintang dari web/app ke spreadsheet secara otomatis, memudahkan analisis kepuasan pelanggan secara instan.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Sanitasi Formula: Proteksi Aktif
+            </div>
+          </div>
+
+          {/* Use Case 6 */}
+          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
+            <div>
+              <div className="w-10 h-10 bg-white border-2 border-black flex items-center justify-center mb-4 shadow-[2px_2px_0px_#000]">
+                <Webhook className="w-5 h-5 text-black stroke-[2.5]" />
+              </div>
+              <h3 className="text-base font-extrabold uppercase tracking-wider text-black mb-2">
+                6. Otomasi Workflow & Webhook Bot
+              </h3>
+              <p className="text-xs text-zinc-700 font-medium leading-relaxed">
+                Integrasikan sistem notifikasi bot Telegram, Discord, WhatsApp Gateway, n8n, atau Make untuk membuat tab baru otomatis dan merekap log transaksi harian.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t-2 border-black text-[11px] font-mono font-bold text-zinc-600">
+              Method: POST /api/v1/:key/:tab/create
             </div>
           </div>
         </div>
@@ -353,7 +492,7 @@ export default function HomePage() {
               </div>
               <CardTitle>Sanitasi Formula Injection</CardTitle>
               <CardDescription>
-                Nilai input yang diawali simbol formula berbahaya (=, +, -, @) otomatis dinetralisir sebelum ditulis ke Google Sheets untuk keamanan penuh.
+                Nilai input yang diawali simbol formula berbahaya (=, +, -, @, |) otomatis dinetralisir sebelum ditulis ke Google Sheets untuk keamanan penuh.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -417,136 +556,108 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing & Closed Beta Plan */}
+      {/* Pricing Teaser / Dynamic Active Plan Section */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-        <div className="border-b-2 border-black pb-4 mb-8">
-          <Badge variant="black">Skema Paket</Badge>
-          <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-black mt-2">
-            Transparansi Kuota & Harga
-          </h2>
-          <p className="text-xs sm:text-sm text-zinc-700 font-medium mt-1">
-            Selama fase Closed Beta, tier Free aktif untuk seluruh pengguna terdaftar.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Free Beta Tier */}
-          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-extrabold text-base uppercase tracking-wider text-black">
-                  Free Beta
-                </span>
-                <Badge variant="yellow">Aktif</Badge>
+        {session && isProActive ? (
+          // View for logged-in PRO user
+          <div className="border-3 border-black bg-[#ffe600] p-6 sm:p-10 shadow-[6px_6px_0px_#000000] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="max-w-2xl">
+              <div className="flex items-center gap-2 mb-2">
+                <Badge variant="black">STATUS LANGGANAN AKTIF</Badge>
               </div>
-              <div className="text-3xl font-extrabold font-mono text-black my-3">
-                Rp0 <span className="text-xs font-normal text-zinc-600">/bln</span>
-              </div>
-              <ul className="space-y-2 text-xs font-bold text-zinc-700 my-4 border-t-2 border-black pt-4">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>1.000 request / bulan</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>1 connected sheet</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Auto-create tab endpoint</span>
-                </li>
-              </ul>
+              <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-black">
+                Akun Anda: Lembar PRO
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-900 font-bold mt-1">
+                {planExpiresAt
+                  ? `Aktif sampai ${new Date(planExpiresAt).toLocaleDateString("id-ID", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })} • Kuota 50.000 req/bulan • Unlimited connected sheets.`
+                  : "Anda sedang menikmati kuota 50.000 req/bulan dan unlimited connected sheets."}
+              </p>
             </div>
-            <Button
-              variant="primary"
-              size="md"
-              className="w-full justify-center"
-              onClick={handleFreeClick}
-            >
-              Gunakan Sekarang
-            </Button>
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <Link href="/dashboard">
+                <Button variant="primary" size="lg" className="bg-white text-black hover:bg-black hover:text-white border-2 border-black shadow-[3px_3px_0px_#000]">
+                  <LayoutDashboard className="w-5 h-5 stroke-[2.5]" />
+                  <span>Buka Dashboard</span>
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button variant="secondary" size="lg" className="bg-transparent border-2 border-black text-black hover:bg-black hover:text-white">
+                  <span>Lihat Rincian Paket</span>
+                </Button>
+              </Link>
+            </div>
           </div>
+        ) : (
+          // View for Free / unauthenticated users
+          <div className="border-3 border-black bg-white p-6 sm:p-10 shadow-[6px_6px_0px_#000000]">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-black mb-6">
+              <div>
+                <Badge variant="yellow" className="mb-2">
+                  Pilihan Paket
+                </Badge>
+                <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-black">
+                  Transparansi Kuota & Harga
+                </h2>
+                <p className="text-xs sm:text-sm text-zinc-700 font-medium mt-1">
+                  Mulai dengan Free Tier (1.000 request/bulan gratis) atau upgrade instan ke PRO via QRIS.
+                </p>
+              </div>
+              <Link href="/pricing" className="shrink-0">
+                <Button variant="primary" size="lg" className="bg-[#ffe600] text-black hover:bg-black hover:text-white border-2 border-black shadow-[4px_4px_0px_#000]">
+                  <span>Lihat Detail Semua Paket</span>
+                  <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+                </Button>
+              </Link>
+            </div>
 
-          {/* Pro Tier (Aktif dengan Pakasir) */}
-          <div className="border-3 border-black bg-white p-6 shadow-[6px_6px_0px_#000000] flex flex-col justify-between relative bg-yellow-50/20">
-            <div className="absolute -top-3 right-4 bg-[#ffe600] border-2 border-black px-2 py-0.5 text-[10px] font-black uppercase tracking-wider shadow-[2px_2px_0px_#000]">
-              Paling Populer
-            </div>
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-extrabold text-base uppercase tracking-wider text-black">
-                  Lembar PRO
-                </span>
-                <Badge variant="black">QRIS / Manual</Badge>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-2 border-black p-5 bg-zinc-50 flex flex-col justify-between">
+                <div>
+                  <div className="font-extrabold text-base uppercase text-black">Free Beta</div>
+                  <div className="text-2xl font-extrabold font-mono text-black my-2">Rp0 <span className="text-xs font-normal">/bln</span></div>
+                  <p className="text-xs text-zinc-700 font-medium">1.000 req/bulan, 1 sheet, auto-create tab, proteksi formula.</p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-300 text-xs font-bold text-black flex items-center gap-1">
+                  <Check className="w-4 h-4 stroke-[3]" /> Gratis untuk pemula
+                </div>
               </div>
-              <div className="text-3xl font-extrabold font-mono text-black my-3">
-                Rp49rb <span className="text-xs font-normal text-zinc-600">/bln</span>
-              </div>
-              <ul className="space-y-2 text-xs font-bold text-zinc-800 my-4 border-t-2 border-black pt-4">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>50.000 request / bulan</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Unlimited connected sheets</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Auto-create tab tanpa batas</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Prioritas server & Upstash</span>
-                </li>
-              </ul>
-            </div>
-            <Button
-              variant="primary"
-              size="md"
-              className="w-full justify-center bg-[#ffe600] hover:bg-black hover:text-white"
-              onClick={handleUpgradeClick}
-            >
-              Upgrade PRO (QRIS)
-            </Button>
-          </div>
 
-          {/* Organisasi Tier */}
-          <div className="border-2 border-black bg-white p-6 shadow-[4px_4px_0px_#000000] flex flex-col justify-between">
-            <div>
-              <div className="font-extrabold text-base uppercase tracking-wider text-black mb-2">
-                Organisasi
+              <div className="border-2 border-black p-5 bg-[#ffe600]/20 border-t-4 border-t-[#ffe600] flex flex-col justify-between">
+                <div>
+                  <div className="font-extrabold text-base uppercase text-black flex items-center justify-between">
+                    <span>Lembar PRO</span>
+                    <Badge variant="black">Populer</Badge>
+                  </div>
+                  <div className="text-2xl font-extrabold font-mono text-black my-2">Rp49rb <span className="text-xs font-normal">/30 hr</span></div>
+                  <p className="text-xs text-zinc-800 font-medium">50.000 req/bulan, unlimited sheets, prioritas server, QRIS instan.</p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-black/20 text-xs font-bold text-black flex items-center gap-1">
+                  <Check className="w-4 h-4 stroke-[3]" /> Siap untuk aplikasi produksi
+                </div>
               </div>
-              <div className="text-3xl font-extrabold font-mono text-black my-3">
-                Rp199rb <span className="text-xs font-normal text-zinc-600">/bln</span>
+
+              <div className="border-2 border-black p-5 bg-zinc-50 flex flex-col justify-between">
+                <div>
+                  <div className="font-extrabold text-base uppercase text-black">Organisasi</div>
+                  <div className="text-2xl font-extrabold font-mono text-black my-2">Rp199rb <span className="text-xs font-normal">/bln</span></div>
+                  <p className="text-xs text-zinc-700 font-medium">150.000+ req/bulan, multi-user, SLA 99.9%, Telegram direct support.</p>
+                </div>
+                <div className="mt-4 pt-3 border-t border-zinc-300 text-xs font-bold text-black flex items-center gap-1">
+                  <Check className="w-4 h-4 stroke-[3]" /> Untuk tim & agensi
+                </div>
               </div>
-              <ul className="space-y-2 text-xs font-bold text-zinc-700 my-4 border-t-2 border-black pt-4">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>150.000 request / bulan</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Multi-user (Role Access)</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-black stroke-[3]" />
-                  <span>Audit log lengkap & SLA 99.9%</span>
-                </li>
-              </ul>
             </div>
-            <a
-              href="mailto:info@atnan.my.id?subject=Inquiry%20Paket%20Organisasi%20Lembar"
-              className="w-full text-center inline-block py-2 text-xs font-extrabold uppercase border-2 border-black bg-zinc-100 hover:bg-black hover:text-white transition-all shadow-[2px_2px_0px_#000]"
-            >
-              Hubungi Tim
-            </a>
           </div>
-        </div>
+        )}
       </section>
 
-      {/* FAQ Section (AEO & Search Engine Snippets) */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 w-full py-8">
+      {/* FAQ Section */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 w-full py-4">
         <div className="border-b-3 border-black pb-4 mb-8 text-center sm:text-left">
           <Badge variant="yellow" className="mb-2">
             Pertanyaan Umum
@@ -579,7 +690,7 @@ export default function HomePage() {
             },
             {
               q: "Bagaimana cara melakukan upgrade ke Lembar PRO?",
-              a: "Anda dapat melakukan upgrade langsung dari Dashboard dengan mengklik tombol 'Upgrade PRO'. Pembayaran didukung otomatis secara instan via QRIS Pakasir (BCA, Mandiri, GoPay, OVO, DANA, ShopeePay) seharga Rp 49.000 / bulan untuk 50.000 request.",
+              a: "Anda dapat melihat rincian paket di halaman Harga atau melakukan upgrade langsung dari Dashboard. Pembayaran didukung otomatis secara instan via QRIS Pakasir (BCA, Mandiri, GoPay, OVO, DANA, ShopeePay) seharga Rp 49.000 / 30 hari untuk 50.000 request.",
             },
           ].map((item, idx) => (
             <div

@@ -29,6 +29,9 @@ export function Footer() {
 
         {/* Real Links (R-24 Compliance: no dead links) */}
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-extrabold uppercase tracking-wider text-black">
+          <Link href="/pricing" className="hover:underline underline-offset-4">
+            Harga & Paket
+          </Link>
           <Link href="/docs" className="hover:underline underline-offset-4">
             Dokumentasi API
           </Link>
